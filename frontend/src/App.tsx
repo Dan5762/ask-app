@@ -5,11 +5,6 @@ import ResultsPage from './components/ResultsPage';
 import axios from 'axios';
 
 
-interface Result {
-  text: string;
-  comments: string[];
-}
-
 function App() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<string[]>([]);
