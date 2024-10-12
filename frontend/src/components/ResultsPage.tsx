@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronUp, ChevronDown } from 'lucide-react'; // Import the ChevronLeft icon
+import { ChevronLeft, Plus, Minus } from 'lucide-react';
 
 interface ResultsPageProps {
   query: string;
-  results: Result[];
+  results: string[];
   onBack: () => void;
-}
-
-interface Result {
-  text: string;
-  comments: string[];
 }
 
 
@@ -30,33 +25,20 @@ const ResultsPage: React.FC<ResultsPageProps> = ({ query, results, onBack }) => 
           <h2 className="text-xl font-bold">{query}</h2>
         </div>
         {results.map((result, index) => (
-          <div key={index} className="border rounded-md overflow-hidden">
+          <div key={index} className="rounded-md overflow-hidden hover:bg-gray-100">
             <div
-              className="p-4 bg-gray-50 flex justify-between items-center cursor-pointer hover:bg-gray-100 transition-colors duration-150"
+              className="p-4 flex justify-between items-center cursor-pointer transition-colors duration-150"
               onClick={() => toggleAnswer(index)}
             >
-              <p className="flex-grow">{result.text}</p>
-              <button className="ml-4 text-gray-500 hover:text-gray-700">
+                <button className="ml-4 pt-1 text-gray-500 hover:text-gray-700 self-start">
                 {expandedAnswer === index ? (
-                  <ChevronUp size={20} />
+                  <Minus size={20} />
                 ) : (
-                  <ChevronDown size={20} />
+                  <Plus size={20} />
                 )}
-              </button>
+                </button>
+                <p className="flex-grow pl-4">{result}</p>
             </div>
-            {expandedAnswer === index && (
-              <div className="p-4 bg-white border-t">
-                {result.comments.length > 0 ? (
-                  result.comments.map((comment, commentIndex) => (
-                    <p key={commentIndex} className="mb-2 text-gray-700">
-                      {comment}
-                    </p>
-                  ))
-                ) : (
-                  <p className="text-gray-500">No comments yet.</p>
-                )}
-              </div>
-            )}
           </div>
         ))}
       </div>

@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
-import { Search } from 'lucide-react';
-import axios from 'axios';
+import { Search, CornerDownRight, Check } from 'lucide-react';
 
 interface SearchPageProps {
-  onSearch: (query: string, results: Result[]) => void;
-}
-
-interface Result {
-  text: string;
-  comments: string[];
+  onSearch: (query: string) => void;
 }
 
 const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [isEmptySearch, setIsEmptySearch] = useState(false);
+  const [apiKey, setApiKey] = useState('');
+  const [apiKeySaved, setApiKeySaved] = useState(false);
 
   const suggestions = [
     "How to cook pasta?",
@@ -29,21 +25,26 @@ const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
     } else {
       setIsEmptySearch(false);
       try {
-        const response = await axios.post<Result[]>('http://localhost:5000/strings', { query });
-        onSearch(query, response.data);
+        onSearch(query);
       } catch (error) {
         console.error('Error making POST request:', error);
       }
     }
   };
+
   const handleSuggestionSearch = async (suggestion: string) => {
     setQuery(suggestion);
     try {
-      const response = await axios.post<Result[]>('http://localhost:5000/strings', { query: suggestion });
-      onSearch(suggestion, response.data);
+      onSearch(suggestion);
     } catch (error) {
       console.error('Error making POST request:', error);
     }
+  };
+
+  const handleSaveApiKey = () => {
+    // Save the API key logic here
+    setApiKeySaved(true);
+    console.log('API Key saved:', apiKey);
   };
 
   return (
@@ -55,7 +56,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search"
+              placeholder="What's on your mind?"
               className={`w-full p-2 pr-10 border rounded-md ${
                 isEmptySearch ? 'border-red-500 bg-red-50' : ''
               }`}
@@ -71,11 +72,43 @@ const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
                 key={index}
                 className="p-2 border rounded-md text-left hover:bg-gray-100"
                 onClick={() => handleSuggestionSearch(suggestion)}
-                >
+              >
                 {suggestion}
               </button>
             ))}
           </div>
+        </div>
+        <div className="h-8"></div>
+        <div className="pv-4">
+          <input
+            type="password"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+            placeholder="Enter your OpenAI API key"
+            className="w-full p-2 pr-10 border rounded-md"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSaveApiKey();
+              }
+            }}
+          />
+          <p className="text-sm text-gray-500 mt-2">
+            {apiKeySaved ? (
+                <>
+                <Check size={20} className="inline-block text-green-500" /> API key saved
+                </>
+            ) : (
+              <>
+                <CornerDownRight size={20} className="inline-block pr-2" />
+                Press Enter to save your API key
+              </>
+            )}
+          </p>
+          <div className="h-4"></div>
+            <p className="text-sm text-gray-500 mt-2 text-center">
+            In order to use this app, you need to have an OpenAI API key. You can get one by signing up at <a href="https://platform.openai.com/signup" target="_blank" rel="noopener noreferrer"><strong>OpenAI</strong></a> and navigating to the <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer"><strong>API key tab</strong></a>.
+            </p>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css'; // Change this line if it was './index.css'
 import SearchPage from './components/SearchPage';
 import ResultsPage from './components/ResultsPage';
+import axios from 'axios';
 
 
 interface Result {
@@ -9,17 +10,18 @@ interface Result {
   comments: string[];
 }
 
-
 function App() {
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const [searchResults, setSearchResults] = useState<Result[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchResults, setSearchResults] = useState<string[]>([]);
   const [showResults, setShowResults] = useState(false);
 
-  const handleSearch = (query: string, results: Result[]) => {
+  const handleSearch = async (query: string) => {
+    const response = await axios.post<string[]>('http://localhost:5000/strings', { query });
+  
     setSearchQuery(query);
-    setSearchResults(results);
+    setSearchResults(response.data);
     setShowResults(true);
-    console.log(results);
+    console.log(response.data);
   };
 
   const handleBack = () => {
