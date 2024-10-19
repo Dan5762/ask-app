@@ -17,43 +17,35 @@ def generate():
     data = request.json
     query = data.get('query')
 
-#     prompt = f"""Generate a series of 2-3 comments based on the following query. The output should be a list of comments that are relevant to the query, eg ```["Some comment...", "Another comment...", ...]```.
+    prompt = f"""Generate a series of 2-3 comments/answers based on the following query. The output should be a list of comments that are relevant to the query, eg ```["Some comment...", "Another comment...", ...]```. Your comments should be a mix of different styles and lengths, from informative to humorous, and should be relevant to the query.
 
-# Query:
-# {query}
+Query:
+{query}
 
-# Comments:
-# """
+Comments:
+"""
 
-#     messages = [{
-#         "role": "system",
-#         "content": [
-#             {"type": "text", "text": prompt}
-#         ]
-#     }]
+    messages = [{
+        "role": "system",
+        "content": [
+            {"type": "text", "text": prompt}
+        ]
+    }]
 
-#     client = openai.OpenAI()
-#     response = client.chat.completions.create(
-#         temperature=0,
-#         model='gpt-4o',
-#         messages=messages
-#     )
+    client = openai.OpenAI()
+    response = client.chat.completions.create(
+        temperature=0,
+        model='gpt-4o',
+        messages=messages
+    )
 
-#     output = response.choices[0].message.content
+    output = response.choices[0].message.content
 
-    # print(output)
+    print(output)
 
     # Extract the list of comments from the comments string
-    # comments = re.findall(r'\["(.*?)"\]', output)
-    # comments = comments[0].split('", "')
-
-    # Print the extracted list of comments
-    comments = [
-        "I normally go for al dente, I find I digest it much better that way.",
-        "Pasta's really easy, just bang in 180g's of your finest penne with some boiling water, and bob's your uncle you got pasta",
-        "Usually with tomato and cheese, so simple and sooooo tasty"
-    ]
-    print(comments)
+    comments = re.findall(r'\["(.*?)"\]', output)
+    comments = comments[0].split('", "')
 
     return jsonify(comments)
 
