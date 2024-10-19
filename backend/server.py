@@ -49,9 +49,9 @@ def generate():
 
     # Print the extracted list of comments
     comments = [
-        {"text": "I normally go for al dente, I find I digest it much better that way.", "children": [], "expanded": False},
-        {"text": "Pasta's really easy, just bang in 180g's of your finest penne with some boiling water, and bob's your uncle you got pasta", "children": [], "expanded": False},
-        {"text": "Usually with tomato and cheese, so simple and sooooo tasty", "children": [], "expanded": False}
+        "I normally go for al dente, I find I digest it much better that way.",
+        "Pasta's really easy, just bang in 180g's of your finest penne with some boiling water, and bob's your uncle you got pasta",
+        "Usually with tomato and cheese, so simple and sooooo tasty"
     ]
     print(comments)
 

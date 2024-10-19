@@ -18,8 +18,12 @@ function App() {
   const [authenticated, setAuthenticated] = useState(true);
 
   const handleSearch = async (query: string) => {
-    const response = await axios.post<Comment[]>('http://localhost:5000/generate', { query });
-    const comments = response.data;
+    const response = await axios.post<string[]>('http://localhost:5000/generate', { query });
+    const comments: Comment[] = response.data.map(text => ({
+      text,
+      children: [],
+      expanded: false
+    }));
   
     setSearchQuery(query);
     setSearchResults(comments);
