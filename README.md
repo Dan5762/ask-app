@@ -30,6 +30,14 @@ python app.py
 
 This will start the backend on `http://localhost:5000`.
 
+The backend needs an OPENAI_API_KEY environment variable to be set. If you already have one set, you can skip this step. If you don't have one, you can get one by signing up for an OpenAI account and creating a new API key.
+
+Once you have the key you shoudl create a `.env` file in the `backend` directory and add the following line:
+
+```
+OPENAI_API_KEY=<your-api-key>
+```
+
 # Usage #
 
 To use the app, navigate to `http://localhost:3000` in your browser. Before being able to ask a question, you need to select a model from the dropdown and provide your own API key. Once you have done this, you can ask a question and get a series of LLM generated answers.

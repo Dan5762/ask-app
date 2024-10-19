@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Search, CornerDownRight, Check } from 'lucide-react';
+import { Search } from 'lucide-react';
+import axios from 'axios';
 
 interface SearchPageProps {
   onSearch: (query: string) => void;
@@ -8,8 +9,6 @@ interface SearchPageProps {
 const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
   const [query, setQuery] = useState('');
   const [isEmptySearch, setIsEmptySearch] = useState(false);
-  const [apiKey, setApiKey] = useState('');
-  const [apiKeySaved, setApiKeySaved] = useState(false);
 
   const suggestions = [
     "How to cook pasta?",
@@ -39,12 +38,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
     } catch (error) {
       console.error('Error making POST request:', error);
     }
-  };
-
-  const handleSaveApiKey = () => {
-    // Save the API key logic here
-    setApiKeySaved(true);
-    console.log('API Key saved:', apiKey);
   };
 
   return (
@@ -77,38 +70,6 @@ const SearchPage: React.FC<SearchPageProps> = ({ onSearch }) => {
               </button>
             ))}
           </div>
-        </div>
-        <div className="h-8"></div>
-        <div className="pv-4">
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="Enter your OpenAI API key"
-            className="w-full p-2 pr-10 border rounded-md"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                handleSaveApiKey();
-              }
-            }}
-          />
-          <p className="text-sm text-gray-500 mt-2">
-            {apiKeySaved ? (
-                <>
-                <Check size={20} className="inline-block text-green-500" /> API key saved
-                </>
-            ) : (
-              <>
-                <CornerDownRight size={20} className="inline-block pr-2" />
-                Press Enter to save your API key
-              </>
-            )}
-          </p>
-          <div className="h-4"></div>
-            <p className="text-sm text-gray-500 mt-2 text-center">
-            In order to use this app, you need to have an OpenAI API key. You can get one by signing up at <a href="https://platform.openai.com/signup" target="_blank" rel="noopener noreferrer"><strong>OpenAI</strong></a> and navigating to the <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer"><strong>API key tab</strong></a>.
-            </p>
         </div>
       </div>
     </div>
